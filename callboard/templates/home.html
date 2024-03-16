@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block content %}
+ {% if user.is_authenticated %}
+
+<p> Welcome! @{{user.username|lower}} </p>
+
+    {% else %}
+
+{{ message }}
+
+{% endif %}
+
+{% endblock content %}

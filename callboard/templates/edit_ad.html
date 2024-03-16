@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+    {% if user.id == announcement.author.id %}
+
+        <h1>Edit an announcement</h1>
+        <hr>
+        <div class="container">
+          <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+        </div>
+    {% endif %}
+
+{% else %}
+  You are not allowed here!
+{% endif %}
+
+
+        {% endblock %}

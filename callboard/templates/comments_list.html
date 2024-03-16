@@ -1,0 +1,42 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Comments
+{% endblock title %}
+
+
+{% block content %}
+<h1><b> All comments </b></h1>
+
+
+
+<hr>
+
+
+
+{% if comments %}
+        <table border="1" style="border-collapse: collapse; width: 100%; height: 36px;">
+  <thead>
+    <tr>
+      <th>Date Added</th>
+      <th>User</th>
+      <th>Message</th>
+      <th>Announcement</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for comment in comments %}
+      <tr>
+        <td>{{ comment.date }}</td>
+        <td>{{ comment.user|truncatechars:13 }}</td>
+        <td>{{ comment.content|truncatechars:15 }}</td>
+        <td><a href="{% url 'ad' comment.announcement.pk %}">{{ comment.announcement|truncatechars:20 }}</a></td>
+    {% endfor %}
+  </tbody>
+</table>
+
+    {% else %}
+        <h2> No comments </h2>
+    {% endif %}
+
+{% endblock content %}

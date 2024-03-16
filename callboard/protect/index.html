@@ -1,0 +1,10 @@
+{% extends "flatpages/default.html" %}
+
+{% block content %}
+<h2>Привет, {{request.user.username}}! Ты вошел в аккаунт.</h2>
+<div> Здесь может содержаться персональная информация для каждого пользователя </div>
+
+<button> <a href="/logout">Выйти</a> </button>
+
+
+{% endblock %}

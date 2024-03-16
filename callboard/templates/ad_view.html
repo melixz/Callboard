@@ -1,0 +1,64 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+{% endblock title %}
+
+{% block content %}
+<br/>
+{% if user.is_authenticated %}
+    {% if user.id == ad.author.id %}
+        <small> <a href="{% url 'ad_edit' ad.pk %}"> Edit Ad</a> </small>
+        <small> <a href="{% url 'ad_delete' ad.pk %}"> Delete Ad</a> </small>
+    {% endif %}
+{% endif %}
+
+<h3><b><u>{{ ad.title}} </u></b></h3>
+<small>{{ ad.date_added|date:'M d Y' }}</small>
+<br/>
+<small> By <a href="{% url 'profile' ad.author.id %}">@{{ ad.author|lower }}</a></small>
+<br/>
+<small>Category: {{ ad.category }}</small>
+<h5> <u> Содержание:</u> <br/> {{ ad.text }}</h5>
+{% if ad.image %}
+  <img src="{{ ad.image.url }}" alt="{{ ad.image }}" style="max-width: 300px;" />
+{% endif %}
+{% if ad.video %}
+  <video controls>
+    <source src="{{ ad.video.url }}" type="{{ ad.video.content_type }}">
+  </video>
+{% endif %}
+<br>
+<br>
+<h4>Comments:</h4>
+<!--comments-->
+<div class ="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <!-- display comment-->
+        {% for comment in object.comment_set.all %}
+        <div class="card p-2 mb-2">
+            <div class="card-body">
+                <h5 class="card-title">{{ comment.user.username }}</h5>
+                <p class="card-text">{{ comment.date }}</p>
+                <p class="card-text">{{ comment.content }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <p>No comments yet.</p>
+        {% endfor %}
+
+        <!--display the form-->
+        <form method="POST" action="{%url 'ad' pk=object.pk%}">
+              {% csrf_token %}
+              <div class="form-group">
+                {{form.content}}
+              </div>
+        <button class="btn btn-primary btn-block" type="submit">Comment</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

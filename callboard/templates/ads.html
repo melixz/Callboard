@@ -1,0 +1,72 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Announcements
+{% endblock title %}
+
+
+{% block content %}
+
+<h1><b> All announcements </b></h1>
+
+<hr>
+
+    {% if ads %}
+        <table border="1" style="border-collapse: collapse; width: 100%; height: 36px;">
+  <thead>
+    <tr>
+      <th>Date Added</th>
+      <th>Title</th>
+      <th>Text</th>
+      <th>Category</th>
+      <th>Image</th>
+      <th>Video</th>
+      <th> Likes </th>
+      <th> Like/Unlike </th>
+      <th> Manage </th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for announcement in ads %}
+      <tr>
+        <td>{{ announcement.date_added }}</td>
+        <td><a href="{% url 'ad' announcement.pk %}">{{ announcement.title|truncatechars:30 }}</a> </td>
+        <td>{{ announcement.text|truncatechars:15 }}</td>
+        <td>{{ announcement.category }}</td>
+        <td>
+          {% if announcement.image %}
+            <img src="{{ announcement.image.url }}" alt="{{ announcement.image }}" style="max-width: 200px;">
+          {% endif %}
+        </td>
+        <td>
+          {% if announcement.video %}
+            <video controls style="max-width: 200px;">
+              <source src="{{ announcement.video.url }}" type="{{ announcement.video.content_type }}">
+            </video>
+          {% endif %} </td>
+        <td>{{ announcement.likes_number }} Likes </td>
+                  <td>
+                    {% if user in announcement.likes.all %}
+                  <a href ="{% url 'ad_like' announcement.id%}"> Unlike</a>
+                  {% else %}
+                  <a href ="{% url 'ad_like' announcement.id%}"> Like</a>
+                      {% endif %}   
+                  </td>
+              <td>
+              {% if user.id == announcement.author.id %}
+                  <small><a href="{% url 'ad_edit' announcement.pk %}"> Edit </a></small>
+                  <small> <a href="{% url 'ad_delete' announcement.pk %}"> Delete</a> </small>
+              {% endif %}
+              </td>
+
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+    {% else %}
+        <h2> No announcements </h2>
+    {% endif %}
+
+{% endblock content %}

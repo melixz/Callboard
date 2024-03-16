@@ -1,0 +1,28 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+
+<h1>Delete an announcement</h1>
+<hr>
+<h3> Delete: {{ ad.title }} </h3>
+<br/>
+<div class="container">
+  <form method="POST">
+    {% csrf_token %}
+    <strong> Are you sure? </strong> <br/> <br/>
+    <button type="submit" class="btn btn-primary">Delete</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .form-control {
+    width: 100%;
+  }
+  .form-control-file {
+    width: 100%;
+  }
+</style>
+
+{% endblock %}

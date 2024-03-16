@@ -1,0 +1,26 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+
+<h1>Add an announcement</h1>
+<hr>
+<div class="container">
+  <form action="{% url 'ads_form' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .form-control {
+    width: 100%;
+  }
+  .form-control-file {
+    width: 100%;
+  }
+</style>
+
+{% endblock %}
